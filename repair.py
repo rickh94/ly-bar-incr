@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # repair bar number issues in lilypond files
 
-import os, sys, shutil, re
+import sys, shutil, re
 
 def read_file(file_name):
     # move to file writing section
@@ -13,34 +13,45 @@ def read_file(file_name):
     return read_lines
 
 def increment_bar_number(line, increment):
-    regex_num = re.compile(r"\s%\s\d+")
-    regex_check = re.compile(r"\s#\d+")
+    regex_num = re.compile(r"\s[#%]\s?\d+")
     num = regex_num.search(line)
-    check = regex_check.search(line)
     if num:
-        print(num.group(), 'incremented by {}'.format(increment), end=' ')
         n = int(re.search(r"\d+", num.group()).group())
         n = n + increment
-        print('is % {}'.format(n))
-    elif check:
-        print(check.group(), 'incremented by {}'.format(increment), end=' ')
-        n = int(re.search(r"\d+", check.group()).group())
-        n = n + increment
-        print('is {}'.format(n))
-    
+    else:
+        return line
+    if re.search(r"%", num.group()):
+        return line.replace(num.group(), ' % {}'.format(n))
+    elif re.search(r"#", num.group()):
+        return line.replace(num.group(), ' #{}'.format(n))
+    else:
+        print("Something has gone wrong")
+        sys.exit(1)
 
+def assemble_file(lines, first_line, last_line, inc):
+    new_file = []
+    i = 0
+    while i < len(lines):
+        # add just for indexing vs line numbers
+        line_num = i + 1
+
+        # only increment within specified lines
+        if line_num >= first_line and line_num <= last_line:
+            new_line = increment_bar_number(line, inc)
+        else:
+            new_line = line
+
+        new_file.append(new_line)
+
+    new_file_stream = ''.join(new_file)
+    return new_file_stream
 
 def main():
     testfile = 'testfile.ly'
     data = read_file(testfile)
-    
-    for line in data:
-        increment_bar_number(line, 1)
 
-    # print(data)
-    # for line in data:
-        # print(line, end='')
-
+    out_file_stream = assemble_file(data, 1)
+    print(out_file_stream)
 
 
 if __name__ == "__main__":
