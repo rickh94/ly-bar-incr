@@ -18,4 +18,9 @@ setup(
     author_email='fredericmhenry@gmail.com',
     license='GPLv3',
     python_requires='>=3',
+    entry_points={
+        'console_scripts': [
+            'ly-bar-incr=ly-bar-incr:main',
+            ],
+        },
     )
