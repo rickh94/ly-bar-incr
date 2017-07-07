@@ -22,12 +22,11 @@ setup(
     license='GPLv3',
     python_requires='>=3',
 
-    # install_requires=['sys','shutil','re','argparse'],
-
     packages=find_packages(),
+    # py_modules=["ly_bar_incr"],
     entry_points={
         'console_scripts': [
-            'ly_bar_incr=ly_bar_incr:main',
+            'ly_bar_incr=ly_bar_incr.ly_bar_incr:main',
             ],
         },
     )
