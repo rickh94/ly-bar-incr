@@ -7,3 +7,8 @@
 
 # backup files
 *.bak
+
+#build files
+build
+dist
+*.egg-info

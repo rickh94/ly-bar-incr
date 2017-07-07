@@ -64,9 +64,6 @@ def write_file(file_stream, file_name):
 
 
 def main():
-    # hardcoded testfile
-    # testfile = 'testfile.ly'
-
     # retrieve command line arguments
     parser = argparse.ArgumentParser(prog='ly-bar-incr',
             description='Increment bar numbers in comments and bar number checks of a lilypond file.'
