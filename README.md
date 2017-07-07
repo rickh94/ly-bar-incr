@@ -2,7 +2,7 @@
 Simple script to increment bar numbers in comments and number checks in lilypond files.
 
 ## Usage
-usage: ly-bar-incr [-h] [-i INCREMENT_VALUE] [-d] [-f FIRST_LINE]
+`usage: ly-bar-incr [-h] [-i INCREMENT_VALUE] [-d] [-f FIRST_LINE]
                    [-l LAST_LINE] [-n]
                    FILE
 
@@ -32,4 +32,4 @@ optional arguments:
                         Specify last line (inclusive) to increment on.
                         Defaults to end of file.
 
-  -n, --dry-run         write restult to stdout without affecting input file
+  -n, --dry-run         write restult to stdout without affecting input file`
