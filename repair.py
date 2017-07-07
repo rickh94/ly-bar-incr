@@ -28,16 +28,17 @@ def increment_bar_number(line, increment):
         print("Something has gone wrong")
         sys.exit(1)
 
-def assemble_file(lines, first_line, last_line, inc):
+def assemble_file(lines, inc, first_line=1, last_line=float("inf")):
     new_file = []
     i = 0
-    while i < len(lines):
+    for idx, line in lines:
         # add just for indexing vs line numbers
-        line_num = i + 1
+        line_num = idx + 1
 
         # only increment within specified lines
         if line_num >= first_line and line_num <= last_line:
             new_line = increment_bar_number(line, inc)
+        # otherwise spit the original line back out
         else:
             new_line = line
 
