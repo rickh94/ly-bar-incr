@@ -10,7 +10,7 @@ Increment bar numbers in comments and bar number checks of a lilypond file.
 
 | Argument | Description |
 |----------|-------------|
-| FILE     | __REQUIRED__ : specify input file |
+| FILE     | __REQUIRED__:  specify input file |
 |-h, --help | Show this help message and exit |
 |-i INCREMENT_VALUE, --increment-value INCREMENT_VALUE| Specify number to increment by. Defaults to 1.|
 |-d, --decrement | Decrement instead of incrementing. |
