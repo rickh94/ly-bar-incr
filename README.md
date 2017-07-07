@@ -13,9 +13,7 @@ Increment bar numbers in comments and bar number checks of a lilypond file.
 | FILE     | specify input file __REQUIRED__|
 |-h, --help | show this help message and exit |
 
-|-i INCREMENT_VALUE
-
- --increment-value INCREMENT_VALUE| Specify number to increment by. Defaults to 1.|
+|-i INCREMENT_VALUE --increment-value INCREMENT_VALUE| Specify number to increment by. Defaults to 1.|
 |-d, --decrement | Decrement instead of incrementing. |
 |-f FIRST_LINE, --first-line FIRST_LINE | | Specify first line (inclusive) to increment on. Default to start of file.|
 |-l LAST_LINE, --last-line LAST_LINE | Specify last line (inclusive) to increment on. Defaults to end of file.|
