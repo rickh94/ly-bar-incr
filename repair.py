@@ -68,7 +68,7 @@ def main():
     # testfile = 'testfile.ly'
 
     # retrieve command line arguments
-    parser = argparse.ArgumentParser(prog='ly_bar_incr',
+    parser = argparse.ArgumentParser(prog='ly-bar-incr',
             description='Increment bar numbers in comments and bar number checks of a lilypond file.'
             )
 
