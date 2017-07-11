@@ -28,10 +28,12 @@ setup(
     packages=find_packages(),
     entry_points={
         'console_scripts': [
-            'ly_bar_incr=ly_bar_incr.ly_bar_incr:main',
+            'ly-bar-incr=ly_bar_incr.ly_bar_incr:main',
             ],
         },
     )
+
+# install man pages
 if 'install' in sys.argv:
     man_path = '/usr/share/man/man1/'
 if os.path.exists(man_path):
