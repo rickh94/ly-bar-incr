@@ -1,6 +1,9 @@
 """Repair bar number mistakes in lilypond files."""
+import argparse
+import os
+import re
+import shutil
 
-import sys, shutil, re, argparse
 
 def read_file(file_name):
     """Read the input file into a list of lines."""
@@ -15,6 +18,7 @@ def read_file(file_name):
         raise SystemExit(1)
 
     return read_lines
+
 
 def increment_bar_number(line, increment):
     """Increments a bar number (if found) on a line and returns the line."""
@@ -33,6 +37,7 @@ def increment_bar_number(line, increment):
     # return line whether or not it has been touched
     return line
 
+
 def assemble_file(lines, inc, first_line, last_line):
     """Assemble the file from incremented and non-incremented lines."""
     new_file = []
@@ -43,26 +48,39 @@ def assemble_file(lines, inc, first_line, last_line):
         # only increment within specified lines
         if line_num >= first_line and line_num <= last_line:
             new_line = increment_bar_number(line, inc)
-        # otherwise spit the original line back out
         else:
             new_line = line
 
         new_file.append(new_line)
 
-    # join it back into a stream and return it
     new_file_stream = ''.join(new_file)
     return new_file_stream
 
-# TODO: except permission errors
-def write_file(file_stream, file_name):
-    """Backups up the old file and overwrites it in place."""
-    # backup the original file
-    shutil.copy2(file_name, file_name + '.bak')
-    # write the new data to the file
-    with open(file_name, "w") as f:
-        f.write(file_stream)
 
-    print("{} has been written. Original is available at {}.bak".format(file_name, file_name))
+def write_file(file_stream, file_name):
+    """Backups up the old file and overwrites it in place.
+
+    If it cannot write because of a permission error it writes a new file to
+    /tmp and leaves the original untouched.
+    """
+    try:
+        # backup the original file
+        shutil.copy2(file_name, file_name + '.bak')
+        path = file_name
+        message = ("{} has been written. Original is available at "
+                   "{}.bak").format(file_name, file_name)
+    except PermissionError:
+        base_name = os.path.basename(file_name)
+        path = os.path.join('/tmp', base_name)
+        message = ("Could not write {orig} (permission error). New file has "
+                   "been written to {new}. Make sure that you have "
+                   "write permission to {orig} for future runs.").format(
+                       orig=file_name,
+                       new=path)
+
+    with open(path, "w") as f:
+        f.write(file_stream)
+    print(message)
 
 
 def main():
@@ -110,7 +128,7 @@ def main():
     increment = args.increment_value
 
     # if decrement has been specified, make the increment value negative
-    if args.decrement: 
+    if args.decrement:
         increment = -increment
 
     data = read_file(in_file)
