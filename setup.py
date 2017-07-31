@@ -32,12 +32,12 @@ setup(
             ],
         },
     )
-
-# install man pages
-if 'install' in sys.argv:
-    man_path = '/usr/share/man/man1/'
-if os.path.exists(man_path):
-    print("Installing man pages")
-    man_page = "doc/ly-bar-incr.1.gz"
-    shutil.copy2(man_page, man_path)
-    os.chmod(man_path + 'ly-bar-incr.1.gz', int('444', 8)) 
+#
+# # install man pages
+# if 'install' in sys.argv:
+#     man_path = '/usr/share/man/man1/'
+# if os.path.exists(man_path):
+#     print("Installing man pages")
+#     man_page = "doc/ly-bar-incr.1.gz"
+#     shutil.copy2(man_page, man_path)
+#     os.chmod(man_path + 'ly-bar-incr.1.gz', int('444', 8))
