@@ -23,7 +23,7 @@ setup(
     author_email='fredericmhenry@gmail.com',
 
     license='GPLv3',
-    python_requires='>=3',
+    python_requires='>=2.7',
 
     packages=find_packages(),
     entry_points={
