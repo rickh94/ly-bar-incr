@@ -10,6 +10,7 @@ class IncrTest(unittest.TestCase):
         self.test3 = 'r8 g8 g g | e2'
         self.test4 = 'e8 f f f | \\barNumberCheck #4'
         self.test5 = 'd4 d8. d16 d4 d | % 100'
+        self.test6 = '\\override font-size = #10'
 
     def test_increment_bar_number(self):
         """Test the incrementing of lines."""
@@ -38,3 +39,8 @@ class IncrTest(unittest.TestCase):
             ly_bar_incr.increment_bar_number(
                 self.test5, 11),
             'd4 d8. d16 d4 d | % 111')
+        # don't increment non-checks
+        self.assertEqual(
+            ly_bar_incr.increment_bar_number(
+                self.test6, 1),
+            '\\override font-size = #10')
