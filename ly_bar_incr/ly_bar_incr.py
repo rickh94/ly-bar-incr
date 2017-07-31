@@ -4,10 +4,16 @@
 import sys, shutil, re, argparse
 
 def read_file(file_name):
-
-    # read the input file into a list of lines
-    with open(file_name) as f:
-        read_lines = f.readlines()
+    """Read the input file into a list of lines."""
+    try:
+        with open(file_name, 'r') as f:
+            read_lines = f.readlines()
+    except FileNotFoundError:
+        print("File could not be found. Please try again.")
+        raise SystemExit(1)
+    except PermissionError:
+        print("Could not open file (insufficient privileges).")
+        raise SystemExit(1)
 
     return read_lines
 
@@ -16,22 +22,23 @@ def increment_bar_number(line, increment):
     # skip some stuff if it isn't relevant
     if '#' not in line and '%' not in line:
         return line
+    # this regex actually finds the numbers and makes groups
     regex_num = re.compile(r"\s([#%]\s?)(\d+)")
     num = regex_num.search(line)
-    # if it's found, extract the number and increment it
+
     if num:
         n = int(num.group(2))
         n = n + increment
-        # replace number in line with new number
         line = line.replace(num.group(2), '{}'.format(n))
+
     # return line whether or not it has been touched
     return line
 
 def assemble_file(lines, inc, first_line, last_line):
+    """Assemble the file from incremented and non-incremented lines."""
     new_file = []
-    i = 0
     for idx, line in enumerate(lines):
-        # add just for indexing vs line numbers
+        # indicies start from zero, line numbers start from 1
         line_num = idx + 1
 
         # only increment within specified lines
@@ -47,7 +54,9 @@ def assemble_file(lines, inc, first_line, last_line):
     new_file_stream = ''.join(new_file)
     return new_file_stream
 
+# TODO: except permission errors, option to write to stdout
 def write_file(file_stream, file_name):
+    """Backups up the old file and overwrites it in place."""
     # backup the original file
     shutil.copy2(file_name, file_name + '.bak')
     # write the new data to the file
