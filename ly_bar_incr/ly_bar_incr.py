@@ -12,26 +12,20 @@ def read_file(file_name):
     return read_lines
 
 def increment_bar_number(line, increment):
-    # find the bar number
-    regex_num = re.compile(r"\s[#%]\s?\d+")
+    """Increments a bar number (if found) on a line and returns the line."""
+    # skip some stuff if it isn't relevant
+    if '#' not in line and '%' not in line:
+        return line
+    regex_num = re.compile(r"\s([#%]\s?)(\d+)")
     num = regex_num.search(line)
     # if it's found, extract the number and increment it
     if num:
-        n = int(re.search(r"\d+", num.group()).group())
+        n = int(num.group(2))
         n = n + increment
-    # otherwise spit the line back out as is
-    else:
-        return line
-    # if it's a comment, return as a comment
-    if re.search(r"%", num.group()):
-        return line.replace(num.group(), ' % {}'.format(n))
-    # if it's a check, return as a check number
-    elif re.search(r"#", num.group()):
-        return line.replace(num.group(), ' #{}'.format(n))
-    # something bad has occurred (hope not)
-    else:
-        print("Something has gone wrong")
-        sys.exit(1)
+        # replace number in line with new number
+        line = line.replace(num.group(2), '{}'.format(n))
+    # return line whether or not it has been touched
+    return line
 
 def assemble_file(lines, inc, first_line, last_line):
     new_file = []
