@@ -1,6 +1,7 @@
 """Test incrementing the bar number."""
 import unittest
-from ly_bar_incr import ly_bar_incr
+import ly_bar_incr
+
 
 class IncrTest(unittest.TestCase):
     """Test incrementing function."""

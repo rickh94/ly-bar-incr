@@ -1,7 +1,8 @@
 """Test filesystem calls."""
 import unittest
 from unittest import mock
-from ly_bar_incr import ly_bar_incr
+import ly_bar_incr
+
 
 @mock.patch('builtins.open', create=True)
 @mock.patch('builtins.print')
@@ -26,7 +27,7 @@ class FilesystemCallTest(unittest.TestCase):
             ly_bar_incr.read_file('nofile')
             mock_print.assert_called_once_with(mock.ANY)
 
-    @mock.patch('ly_bar_incr.ly_bar_incr.shutil.copy2')
+    @mock.patch('ly_bar_incr.shutil.copy2')
     def test_write_file(self, mock_copy, mock_print, mock_open):
         """Test backing up the file and writing it."""
         # passing test

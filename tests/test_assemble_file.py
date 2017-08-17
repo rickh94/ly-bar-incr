@@ -1,7 +1,8 @@
 """Tests the assemble file function."""
 import unittest
 from unittest import mock
-from ly_bar_incr import ly_bar_incr
+import ly_bar_incr
+
 
 class AssembleFileTest(unittest.TestCase):
     """Test assembling file."""
@@ -20,7 +21,7 @@ class AssembleFileTest(unittest.TestCase):
             + 'this is a line\nthis is a line\nthis is a line\n'
             + 'this is a line\n')
 
-    @mock.patch('ly_bar_incr.ly_bar_incr.increment_bar_number')
+    @mock.patch('ly_bar_incr.increment_bar_number')
     def test_assemble_file(self, mock_incr):
         """Test assemble file."""
         # test with default values

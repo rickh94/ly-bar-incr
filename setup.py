@@ -15,7 +15,8 @@ setup(
     name='ly-bar-incr',
     version='0.2',
 
-    description='Increment bar numbers in comments and bar number checks of a lilypond file.',
+    description=('Increment bar numbers in comments and bar number checks of a '
+                 'lilypond file.'),
     long_description=long_description,
     url='https://github.com/rickh94/ly-bar-incr',
 
@@ -25,10 +26,10 @@ setup(
     license='GPLv3',
     python_requires='>=2.7',
 
-    packages=find_packages(),
+    py_modules=['ly_bar_incr'],
     entry_points={
         'console_scripts': [
-            'ly-bar-incr=ly_bar_incr.ly_bar_incr:main',
+            'ly-bar-incr=ly_bar_incr:main',
             ],
         },
     )
