@@ -9,7 +9,7 @@ before_install:
   - pip install pytest-cov
   - pip install codecov
 install: pip install .
-script: pytest
+script: pytest --cov=ly_bar_incr
 
 after_success:
   - codecov
