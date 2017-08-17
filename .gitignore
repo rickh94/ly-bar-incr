@@ -13,3 +13,7 @@ build
 dist
 *.egg-info
 .build
+
+# coverage reports
+htmlcov
+.coverage
