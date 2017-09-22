@@ -83,6 +83,22 @@ def write_file(file_stream, file_name):
     print(message)
 
 
+def validate_lines(fline, lline, total):
+    """Validates that specified lines are in range."""
+    if fline > total:
+        print("Error: First line is beyond end of file.")
+        raise SystemExit(1)
+    if fline > lline:
+        print("Error: First line is after last line.")
+        raise SystemExit(1)
+    if fline < 1:
+        print("Error: First line cannot be less than 1.")
+        raise SystemExit(1)
+    if lline < 1:
+        print("Error: Last line cannot be less than 1.")
+        raise SystemExit(1)
+
+
 def main():
     """Main function."""
     # retrieve command line arguments
@@ -134,6 +150,10 @@ def main():
         increment = -increment
 
     data = read_file(in_file)
+    validate_lines(
+        fline=args.first_line, lline=args.last_line, total=len(data)
+    )
+
     out_file_stream = assemble_file(data, increment, args.first_line,
                                     args.last_line)
 
