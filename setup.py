@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-from setuptools import setup,find_packages
+from setuptools import setup
+from setuptools import find_packages
 from codecs import open
 from os import path
 import sys
@@ -13,17 +14,17 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='ly-bar-incr',
-    version='0.2',
+    version='0.4',
 
-    description=('Increment bar numbers in comments and bar number checks of a '
-                 'lilypond file.'),
+    description=('Increment bar numbers in comments and bar number checks of a'
+                 ' lilypond file.'),
     long_description=long_description,
     url='https://github.com/rickh94/ly-bar-incr',
 
     author='Rick Henry',
     author_email='fredericmhenry@gmail.com',
 
-    license='GPLv3',
+    license='MIT',
     python_requires='>=2.7',
 
     py_modules=['ly_bar_incr'],

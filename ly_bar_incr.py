@@ -32,7 +32,7 @@ def increment_bar_number(line, increment):
     if num:
         n = int(num.group(2))
         n = n + increment
-        line = line.replace(num.group(2), '{}'.format(n))
+        line = regex_num.sub(r' ' + num.group(1) + '{}'.format(n), line)
 
     # return line whether or not it has been touched
     return line
@@ -83,13 +83,30 @@ def write_file(file_stream, file_name):
     print(message)
 
 
+def validate_lines(fline, lline, total):
+    """Validates that specified lines are in range."""
+    if fline > total:
+        print("Error: First line is beyond end of file.")
+        raise SystemExit(1)
+    if fline > lline:
+        print("Error: First line is after last line.")
+        raise SystemExit(1)
+    if fline < 1:
+        print("Error: First line cannot be less than 1.")
+        raise SystemExit(1)
+    if lline < 1:
+        print("Error: Last line cannot be less than 1.")
+        raise SystemExit(1)
+
+
 def main():
     """Main function."""
     # retrieve command line arguments
     parser = argparse.ArgumentParser(
         prog='ly-bar-incr',
-        description='Increment bar numbers in comments and bar number checks of a lilypond file.'
-        )
+        description=('Increment bar numbers in comments and bar '
+                     'number checks of a lilypond file.')
+    )
 
     # command line arguments
     parser.add_argument("FILE", help="specify input file")
@@ -97,29 +114,30 @@ def main():
     parser.add_argument("-i", "--increment-value",
                         type=int, default=1,
                         help="Specify number to increment by. Defaults to 1."
-                       )
+                        )
 
     parser.add_argument("-d", "--decrement",
                         action='store_true',
                         help="Decrement instead of incrementing."
-                       )
+                        )
 
     parser.add_argument("-f", "--first-line",
                         type=int, default=1,
                         help=("Specify first line (inclusive) to increment "
                               "on. Default to start of file.")
-                       )
+                        )
 
     parser.add_argument("-l", "--last-line",
                         type=int, default=float("inf"),
                         help=("Specify last line (inclusive) to increment "
                               "on. Defaults to end of file.")
-                       )
+                        )
 
     parser.add_argument("-n", "--dry-run",
-                        help="write restult to stdout without affecting input file",
+                        help=("write restult to stdout without affecting "
+                              "input file"),
                         action="store_true"
-                       )
+                        )
 
     args = parser.parse_args()
 
@@ -132,7 +150,12 @@ def main():
         increment = -increment
 
     data = read_file(in_file)
-    out_file_stream = assemble_file(data, increment, args.first_line, args.last_line)
+    validate_lines(
+        fline=args.first_line, lline=args.last_line, total=len(data)
+    )
+
+    out_file_stream = assemble_file(data, increment, args.first_line,
+                                    args.last_line)
 
     if args.dry_run:
         print(out_file_stream)
