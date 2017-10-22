@@ -26,11 +26,12 @@ setup(
 
     license='MIT',
     python_requires='>=2.7',
+    install_requires=['click'],
 
     py_modules=['ly_bar_incr'],
     entry_points={
         'console_scripts': [
-            'ly-bar-incr=ly_bar_incr:main',
+            'ly-bar-incr=ly_bar_incr:cli',
             ],
         },
     )

@@ -1,8 +1,8 @@
 """Repair bar number mistakes in lilypond files."""
-import argparse
 import os
 import re
 import shutil
+import click
 
 
 def read_file(file_name):
@@ -99,69 +99,81 @@ def validate_lines(fline, lline, total):
         raise SystemExit(1)
 
 
-def main():
+@click.command()
+@click.option('--increment-value', '-i', type=int, default=1,
+              help='Specify a number to increment by. Defaults to 1.')
+@click.option('--decrement', '-d', is_flag=True, default=False,
+              help='Flag to decrement by value instead of incrementing')
+@click.option('--first-line', '-f', type=int, default=1,
+              help=("Specify first line (inclusive) to increment "
+                    "on. Default to start of file."))
+@click.option('--last-line', '-l', type=int,
+              help=('Specify last line (inclusive) to increment on. Defaults'
+                    ' to end of file.'))
+@click.option('--dry-run/--write-file', '-n/-w', default=False,
+              help=("write result to stdout without affectin input file"))
+@click.argument('filename', type=click.Path(exists=True))
+def cli(increment_value, decrement, first_line, last_line, dry_run, filename):
     """Main function."""
     # retrieve command line arguments
-    parser = argparse.ArgumentParser(
-        prog='ly-bar-incr',
-        description=('Increment bar numbers in comments and bar '
-                     'number checks of a lilypond file.')
-    )
+    # parser = argparse.ArgumentParser(
+    #     prog='ly-bar-incr',
+    #     description=('Increment bar numbers in comments and bar '
+    #                  'number checks of a lilypond file.')
+    # )
 
     # command line arguments
-    parser.add_argument("FILE", help="specify input file")
+    # parser.add_argument("FILE", help="specify input file")
 
-    parser.add_argument("-i", "--increment-value",
-                        type=int, default=1,
-                        help="Specify number to increment by. Defaults to 1."
-                        )
+    # parser.add_argument("-i", "--increment-value",
+    #                     type=int, default=1,
+    #                     help="Specify number to increment by. Defaults to 1."
+    #                     )
+    #
+    # parser.add_argument("-d", "--decrement",
+    #                     action='store_true',
+    #                     help="Decrement instead of incrementing."
+    #                     )
 
-    parser.add_argument("-d", "--decrement",
-                        action='store_true',
-                        help="Decrement instead of incrementing."
-                        )
+    # parser.add_argument("-f", "--first-line",
+    #                     type=int, default=1,
+    #                     help=("Specify first line (inclusive) to increment "
+    #                           "on. Default to start of file.")
+    #                     )
 
-    parser.add_argument("-f", "--first-line",
-                        type=int, default=1,
-                        help=("Specify first line (inclusive) to increment "
-                              "on. Default to start of file.")
-                        )
+    # parser.add_argument("-l", "--last-line",
+    #                     type=int, default=float("inf"),
+    #                     help=("Specify last line (inclusive) to increment "
+    #                           "on. Defaults to end of file.")
+    #                     )
 
-    parser.add_argument("-l", "--last-line",
-                        type=int, default=float("inf"),
-                        help=("Specify last line (inclusive) to increment "
-                              "on. Defaults to end of file.")
-                        )
-
-    parser.add_argument("-n", "--dry-run",
-                        help=("write restult to stdout without affecting "
-                              "input file"),
-                        action="store_true"
-                        )
-
-    args = parser.parse_args()
+    # parser.add_argument("-n", "--dry-run",
+    #                     help=("write restult to stdout without affecting "
+    #                           "input file"),
+    #                     action="store_true"
+    #                     )
+    #
+    # args = parser.parse_args()
 
     # move args to variables
-    in_file = args.FILE
-    increment = args.increment_value
+    increment = increment_value
 
     # if decrement has been specified, make the increment value negative
-    if args.decrement:
+    if decrement:
         increment = -increment
 
-    data = read_file(in_file)
+    if not last_line:
+        last_line = float("inf")
+
+    data = read_file(filename)
     validate_lines(
-        fline=args.first_line, lline=args.last_line, total=len(data)
+        fline=first_line, lline=last_line, total=len(data)
     )
 
-    out_file_stream = assemble_file(data, increment, args.first_line,
-                                    args.last_line)
+    out_file_stream = assemble_file(data, increment, first_line,
+                                    last_line)
 
-    if args.dry_run:
+    if dry_run:
         print(out_file_stream)
     else:
-        write_file(out_file_stream, in_file)
-
-
-if __name__ == "__main__":
-    main()
+        write_file(out_file_stream, filename)
