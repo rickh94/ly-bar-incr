@@ -16,7 +16,7 @@ def test_basic(mock_validate_lines, mock_write_file, mock_assemble_file,
         pass
     mock_assemble_file.return_value = 'some random text'
     mock_read_file.return_value = 'some other random text'
-    tmpfile = os.path.join(tmpdir, 'testfile.ly')
+    tmpfile = os.path.join(str(tmpdir), 'testfile.ly')
     with open(tmpfile, 'w') as f:
         f.write('a test file')
     runner = CliRunner()
