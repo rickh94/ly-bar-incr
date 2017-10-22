@@ -25,7 +25,7 @@ setup(
     author_email='fredericmhenry@gmail.com',
 
     license='MIT',
-    python_requires='>=2.7',
+    python_requires='>=3.4',
     install_requires=['click'],
 
     py_modules=['ly_bar_incr'],
