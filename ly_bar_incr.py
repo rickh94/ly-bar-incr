@@ -4,6 +4,8 @@ import re
 import shutil
 import click
 
+__version__ = '0.5.2'
+
 
 def read_file(file_name):
     """Read the input file into a list of lines."""
@@ -100,6 +102,7 @@ def validate_lines(fline, lline, total):
 
 
 @click.command()
+@click.version_option(version=__version__)
 @click.option('--increment-value', '-i', type=int, default=1,
               help='Specify a number to increment by. Defaults to 1.')
 @click.option('--decrement', '-d', is_flag=True, default=False,
@@ -111,7 +114,9 @@ def validate_lines(fline, lline, total):
               help=('Specify last line (inclusive) to increment on. Defaults'
                     ' to end of file.'))
 @click.option('--dry-run/--write-file', '-n/-w', default=False,
-              help=("write result to stdout without affectin input file"))
+              help=("Write result to stdout without affecting input file"
+                    " or write to file. If not set, defaults to writing "
+                    " the file."))
 @click.argument('filename', type=click.Path(exists=True))
 def cli(increment_value, decrement, first_line, last_line, dry_run, filename):
     """Main function."""

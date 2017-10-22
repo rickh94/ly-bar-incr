@@ -6,6 +6,7 @@ from os import path
 import sys
 import shutil
 import os
+from ly_bar_incr import __version__
 
 here = path.abspath(path.dirname(__file__))
 
@@ -14,7 +15,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='ly-bar-incr',
-    version='0.5',
+    version=__version__,
 
     description=('Increment bar numbers in comments and bar number checks of a'
                  ' lilypond file.'),
