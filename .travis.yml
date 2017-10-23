@@ -8,9 +8,10 @@ python:
 before_install:
   - pip install pytest-cov
   - pip install codecov
+  - pip install -r requirements.txt
 
-install: pip install .
-script: pytest --cov=ly_bar_incr
+install: python setup.py install
+script: python setup.py test
 
 after_success:
   - codecov
